@@ -1,0 +1,44 @@
+---
+- name: Install wireguard (Debian)
+  apt:
+    name: wireguard
+    state: present
+
+- name: Generate private keys
+  shell: wg genkey
+  register: wireguard_genkey
+  changed_when: false
+
+- set_fact:
+    private_key: "{{ wireguard_genkey.stdout }}"
+
+- name: Generate public keys
+  shell: "echo {{ private_key }} | wg pubkey"
+  register: wireguard_pubkey
+  changed_when: false
+
+- set_fact:
+    public_key: "{{ wireguard_pubkey.stdout }}"
+
+- set_fact: private_ip="10.0.1.{{ groups['wireguard'].index(inventory_hostname) }}"
+
+- name: Create wireguard directory
+  file:
+    path: /etc/wireguard
+    state: directory
+
+- name: Configuring wireguard
+  template:
+    src: wg.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    owner: root
+    group: root
+    mode: 600
+
+- name: Starting wireguard
+  systemd:
+    name: "wg-quick@wg0"
+    enabled: yes
+    state: started
+
+

@@ -1,0 +1,34 @@
+---
+- fail: 
+    msg: "Only Debian supported for now"
+  when: ansible_distribution != 'Debian'
+
+#- name: Apt upgrade (Debian)
+#  apt:
+#    name: "*"
+#    update_cache: yes
+#    state: latest
+
+- name: Install wireguard repo (Debian)
+  apt_repository:
+    filename: unstable-wireguard
+    repo: 'deb http://deb.debian.org/debian/ unstable main'
+    update_cache: yes
+  when: ansible_distribution == 'Debian'
+
+- name: Install dependencies (Debian)
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - linux-headers-{{ ansible_kernel }}
+    - software-properties-common
+
+- name: Enable net.ipv4.ip_forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    reload: yes
+    state: present
+
+

@@ -1,0 +1,14 @@
+[Interface]
+Address = {{ private_ip }}
+PrivateKey = {{ private_key }}
+ListenPort = 51820
+
+{% for item in groups['wireguard'] %}
+{% if item != inventory_hostname %}
+[Peer]
+PublicKey = {{ hostvars[item]['public_key'] }}
+AllowedIps = {{ hostvars[item]['private_ip'] }}/32
+Endpoint = {{ hostvars[item]['ansible_default_ipv4']['address'] }}:51820
+
+{% endif %}
+{% endfor %}
