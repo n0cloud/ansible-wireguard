@@ -2,6 +2,8 @@
 
 A simple ansible playbook to install [Wireguard](https://www.wireguard.com/) VPN / sercure overlay network.
 
+## Todo
+ - Add support for OS other then Debian
 
 ## Requirements
 
@@ -24,3 +26,6 @@ You can get the status of Wireguard by running the following command on every ho
  or with ansible
 
     ansible -i inventory/hosts.ini -a "wg show" wireguard
+
+## Resources
+For more information go to [Wireguard documentation](https://www.wireguard.com/quickstart/).
