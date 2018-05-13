@@ -4,6 +4,7 @@ A simple ansible playbook to install [Wireguard](https://www.wireguard.com/) VPN
 
 ## Todo
  - Add support for OS other then Debian
+ - Use python-netaddr to generate private Ips
 
 ## Requirements
 
