@@ -20,7 +20,7 @@
 - set_fact:
     public_key: "{{ wireguard_pubkey.stdout }}"
 
-- set_fact: private_ip="10.0.1.{{ groups['wireguard'].index(inventory_hostname) }}"
+- set_fact: private_ip="10.0.1.{{ groups['wireguard'].index(inventory_hostname) + 1 }}"
 
 - name: Create wireguard directory
   file:
