@@ -3,18 +3,27 @@
     msg: "Only Debian supported for now"
   when: ansible_distribution != 'Debian'
 
-#- name: Apt upgrade (Debian)
-#  apt:
-#    name: "*"
-#    update_cache: yes
-#    state: latest
-
 - name: Install wireguard repo (Debian)
   apt_repository:
     filename: unstable-wireguard
     repo: 'deb http://deb.debian.org/debian/ unstable main'
     update_cache: yes
   when: ansible_distribution == 'Debian'
+
+- name: Configure wireguard repo (Debian)
+  blockinfile:
+    path: /etc/apt/preferences.d/limit-unstable
+    create: yes
+    block: |-
+      Package: *
+      Pin: release a=unstable
+      Pin-Priority: 150
+
+#- name: Apt upgrade (Debian)
+#  apt:
+#    name: "*"
+#    update_cache: yes
+#    state: latest
 
 - name: Install dependencies (Debian)
   apt:
