@@ -34,11 +34,5 @@
     owner: root
     group: root
     mode: 600
-
-- name: Starting wireguard
-  systemd:
-    name: "wg-quick@wg0"
-    enabled: yes
-    state: started
-
-
+  notify: wg0_restart
+ 
