@@ -1,6 +1,6 @@
 # Ansible Wireguard
 
-A simple ansible playbook to install [Wireguard](https://www.wireguard.com/) VPN / sercure overlay network.
+A simple ansible playbook to install [Wireguard](https://www.wireguard.com/) VPN / secure overlay network.
 
 ## Todo
  - Add support for OS other then Debian
